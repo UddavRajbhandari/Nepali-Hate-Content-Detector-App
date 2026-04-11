@@ -5,4 +5,3 @@ models/saved_models/xlm_roberta_results/
 models/saved_models/wandb/
 .vscode/
 frontend-build/node_modules/
-backend/__pycache__/
