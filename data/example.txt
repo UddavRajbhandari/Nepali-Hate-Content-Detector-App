@@ -1,0 +1,98 @@
+# Nepali Test Samples for Streamlit UI Testing
+# Categories: Short (no emoji), Short (with emoji), Long text samples
+# Format: Devanagari → Romanized
+# Date prepared: February 2026
+
+=== SHORT SAMPLES (NO EMOJI) ===
+
+तिमी मुर्ख हौ
+Timi murkh hau
+
+तिमी बेवकूफ छौ
+Timi bewakoof chau
+
+तिमी गधा जस्तै छौ
+Timi gadha jastai chau
+
+तिमी कुकुर हौ
+Timi kukur hau
+
+मुस्लिम हरु सबै खराब छन्
+Muslim haru sabai kharab chan
+
+मुसलमान हरु आतंकवादी हुन्
+Musalman haru aatankbadi hun
+
+मधेसी हरु नेपाली होइनन्
+Madhesi haru Nepali hoinnan
+
+पाहाडी मान्छे सबै एउटै हुन्छन्
+Pahadi manche sabai eutai hunchan
+
+केटीहरु घरमा बस्नु पर्छ
+Keti haru gharma basnu parcha
+
+केटीहरु कमजोर हुन्छन्
+Keti haru kamjor hunchan
+
+केटी हरु गाडी चलाउन सक्दैनन्
+Keti haru gadi chalauna sakdainan
+
+महिला हरुको काम भान्सा मा हो
+Mahila haruko kaam bhanxa ma ho
+
+=== SHORT SAMPLES (WITH EMOJI) ===
+
+नमस्ते, कस्तो छ? 👋
+Namaste, kasto cha? 👋
+
+यो राम्रो छ, धन्यवाद 👍
+Yo ramro cha, dhanyabad 👍
+
+धन्यवाद साथी 🙏
+Dhanyabad sathi 🙏
+
+शुभ रात्री 🌙
+Shubh ratri 🌙
+
+यो खाना राम्रो छ 😋
+Yo khana ramro cha 😋
+
+यो फिल्म राम्रो थियो 🎥
+Yo film ramro thiyo 🎥
+
+म तिमीलाई माया गर्छु ❤️
+Ma timilai maya garchu ❤️
+
+के गरिरहेको छौ? 😊
+Ke garirako chau? 😊
+
+=== LONG TEXT SAMPLES ===
+
+[Long Positive + Emoji]
+यो फिल्म अत्यन्त राम्रो थियो। कथा निकै रोचक र भावुक थियो, अभिनय उत्कृष्ट, संगीतले मन छुन्छ। मैले दुई पटक हेरेको छु र अझै हेर्न मन लाग्छ। तिमीलाई पनि सिफारिस गर्छु, एक पटक हेरेर हेर्नुहोस्! 🎬❤️
+Yo film atyanta ramro thiyo. Katha nikai rochak ra bhavuk thiyo, abhinaya utkrishta, sangeetle man chhunchha. Maile dui patak hereko chu ra ajhai herna man lagcha. Timilai pani sifaris garchu, ek patak herera hernuhos! 🎬❤️
+
+[Long Neutral + Emoji]
+शुभ प्रभात! आज मौसम एकदम राम्रो छ। म बिहानै घुम्न गएँ र अब घर फर्किएर काम गर्दै छु। तिमी आज के गर्दै छौ? यदि फुर्सद छ भने हामी सँगै कफी पिउन जाऔंला। ☕🌞
+Shubh prabhat! Aaja mausam ekdam ramro cha. Ma bihana ghumna gaye ra ab ghar farkiera kaam gardai chu. Timi aaja ke gardai chau? Yadi fursad cha bhane hami sangai kafi piun jaunla. ☕🌞
+
+[Long Hate - Ethnic/Religious]
+मुस्लिम हरु सबै खराब छन्। उनीहरुले हाम्रो देश र संस्कृति बिगारिरहेका छन्। मधेसी हरु पनि नेपाली होइनन्, उनीहरुले हाम्रो भूमि कब्जा गर्न खोजिरहेका छन्। यी सबैलाई देशबाट निकाल्नु पर्छ, नत्र हामी पहाडीहरुको अस्तित्व नै सकिन्छ।
+Muslim haru sabai kharab chan. Uniharule hamro desh ra sanskriti bigariraheka chan. Madhesi haru pani Nepali hoinnan, uniharule hamro bhumi kabja garna khojiraheka chan. Yi sabailai deshbata nikaalnu parcha, natra hami pahadiharuko astitwa nai sakincha.
+
+[Long Sexist]
+केटीहरु कमजोर हुन्छन्। उनीहरु घरमा बस्नु पर्छ, भान्सा गर्नु पर्छ, बच्चा हेर्नु पर्छ। गाडी चलाउन सक्दैनन्, बाहिर काम गर्न सक्दैनन्, निर्णय लिन सक्दैनन्। महिलाहरुको मुख्य काम घर र परिवार हो, बाहिर निस्कनु उनीहरुको लागि ठीक हुँदैन।
+Keti haru kamjor hunchan. Uniharu gharma basnu parcha, bhanxa garnu parcha, baccha hernu parcha. Gadi chalauna sakdainan, bahira kaam garna sakdainan, nirnaya lina sakdainan. Mahilaharuko mukhya kaam ghar ra parivar ho, bahira niskinu uniharuko lagi thik hudaina.
+
+[Extra-long Mixed - Stress Test]
+नमस्ते साथीहरू! आज म तपाईंहरूलाई एउटा कुरा भन्न चाहन्छु। यो देशमा केही मान्छेहरूले अरूलाई हेप्ने, गाली गर्ने, जाति र धर्मका आधारमा घृणा फैलाउने काम गरिरहेका छन्। यस्तो गर्नु एकदम गलत हो। हामी सबै नेपाली हौं, एउटै देशका नागरिक हौं। माया र सम्मानले मात्र देश अगाडि बढ्छ। धन्यवाद! 🙏🇳🇵
+Namaste sathiharu! Aaja ma tapaaiharulai eutaa kura bhanna chahanchu. Yo deshma kehi mancheharule arulai hepne, gali garne, jati ra dharma ka aadhar ma ghrina failaune kaam gariraheka chan. Yasto garnu ekdam galat ho. Hami sabai Nepali houn, eutai deska nagrik houn. Maya ra sammanle matra desh agadi badhcha. Dhanyabad! 🙏🇳🇵
+
+[Sarcastic comments (Emoji)]
+
+"मधेशीहरुले नेपालको विकास गरिदिए रे 😂🔥 सबै धोती भएर भारतको सेवा गर्दैछन् 🤮"
+"बहुनहरुले देश बचाए रे शाबास 😂🤮 दलितलाई हेपेर मात्र बस्छन् 😤"
+"यो पोथी राष्ट्रपति बनेर देश उज्यालो पारिदिइन् 😂😡 १८ करोडको गाडी चढेर जनता भोकै मरे पनि मतलब छैन"
+
+=== END ===
