@@ -1,4 +1,4 @@
-venv/
+
 *.pyc
 __pycache__/
 models/saved_models/xlm_roberta_results/
@@ -6,3 +6,59 @@ models/saved_models/wandb/
 .vscode/
 frontend-build/node_modules/
 models/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Model files — loaded from HuggingFace Hub at runtime
+models/
+*.bin
+*.safetensors
+*.pt
+*.pth
+*.pkl
+
+# Data / history
+data/
+*.jsonl
+*.json
+!package.json
+!tsconfig.json
+
+# Environment variables — never commit real values
+.env
+.env.local
+.env.production
+
+# Node
+node_modules/
+frontend-build/dist/
+frontend-build/.vite/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# HuggingFace cache
+.cache/
+huggingface/
