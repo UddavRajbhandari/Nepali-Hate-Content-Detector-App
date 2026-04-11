@@ -1,0 +1,47 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Development / editor files
+.env
+.env.*
+*.env
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local model weights — these are large and should not be in the image
+# unless you specifically want to bake them in (use the ARG mechanism instead)
+models/
+
+# Test files
+tests/
+pytest.ini
+.pytest_cache/
+
+# Data — history file is generated at runtime, not baked into the image
+data/
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+*.md
+docs/
+
+# Frontend — only backend source goes into the backend image
+../frontend/

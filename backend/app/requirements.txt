@@ -1,0 +1,32 @@
+# ── Web framework ──────────────────────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0          # [standard] pulls in httptools + uvloop for speed
+python-multipart>=0.0.9            # required for FastAPI file upload support
+
+# ── Data validation ────────────────────────────────────────────────────────────
+pydantic>=2.7.0
+
+# ── ML / Inference ────────────────────────────────────────────────────────────
+# Install CPU-only torch to keep image size manageable on CPU deployments.
+# For GPU deployments, replace with the appropriate CUDA wheel:
+#   torch>=2.2.0+cu121  (check https://pytorch.org for your CUDA version)
+torch>=2.2.0
+transformers>=4.40.0
+tokenizers>=0.19.0                 # fast Rust tokenizer — required by XLM-RoBERTa
+sentencepiece>=0.2.0               # required by XLM-RoBERTa tokenizer
+scikit-learn>=1.4.0
+numpy>=1.26.0
+joblib>=1.4.0
+
+# ── HuggingFace Hub (model download) ──────────────────────────────────────────
+huggingface-hub>=0.22.0
+
+# ── Explainability (all optional — app degrades gracefully if missing) ─────────
+lime>=0.2.0.1
+shap>=0.45.0
+captum>=0.7.0                      # only works when torch is installed
+
+# ── Preprocessing (your existing pipeline) ────────────────────────────────────
+deep-translator>=1.11.4            # English → Nepali translation
+emoji>=2.11.1                      # emoji detection and EMOJI_DATA registry
+indic-transliteration>=2.3.57      # ITRANS Romanized → Devanagari
