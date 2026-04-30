@@ -40,9 +40,10 @@ export default function BatchAnalysis() {
         texts,
         (item, index, total) => {
           acc.push(item);
-          // flushSync forces React to render immediately after each streamed item
-          // so the progress bar and results table update in real time rather than
-          // all at once at the end (React 18 batches async state updates by default)
+          // flushSync commits state synchronously so the counter updates immediately.
+          // The setTimeout(r,0) yield in api.ts then gives the browser a paint frame.
+          // Both are required: flushSync alone doesn't yield for paint,
+          // setTimeout alone doesn't guarantee React commits before the next item.
           flushSync(() => {
             setResults([...acc]);
             setProgress({ done: index + 1, total });
@@ -224,15 +225,71 @@ export default function BatchAnalysis() {
         <div className="alert alert-error" style={{ marginBottom: 16 }}>{error}</div>
       )}
 
-      {/* ── Progress bar ── */}
+      {/* ── Progress bar — sticky, tall, unmissable ── */}
       {loading && progress && (
-        <div className="card" style={{ marginBottom: 16 }}>
-          <div style={{ display: "flex", justifyContent: "space-between", fontSize: 13, marginBottom: 8 }}>
-            <span className="muted">Processing…</span>
-            <span className="mono-sm">{progress.done} / {progress.total} ({pct}%)</span>
-          </div>
-          <div className="progress-track">
-            <div className="progress-fill" style={{ width: `${pct}%` }} />
+        <div style={{ position: "sticky", top: 8, zIndex: 100, marginBottom: 16 }}>
+          <div className="card" style={{
+            background: "var(--bg2)",
+            border: "1px solid var(--border2)",
+            boxShadow: "0 4px 24px rgba(0,0,0,0.5)",
+            padding: "14px 16px",
+          }}>
+
+            {/* Counter row */}
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+              <span style={{ fontSize: 13, color: "var(--text2)", display: "flex", alignItems: "center", gap: 8 }}>
+                <span className="spinner" style={{ width: 13, height: 13, borderWidth: 2 }} />
+                Analyzing texts…
+              </span>
+              <span style={{
+                fontSize: 13,
+                fontFamily: "'DM Mono', monospace",
+                color: "var(--accent)",
+                background: "var(--accent-dim)",
+                padding: "2px 10px",
+                borderRadius: 6,
+                minWidth: 130,
+                textAlign: "center",
+              }}>
+                {progress.done} / {progress.total} &nbsp;·&nbsp; {pct}%
+              </span>
+            </div>
+
+            {/* Track — taller (14px) so it is clearly visible */}
+            <div style={{
+              width: "100%",
+              height: 14,
+              background: "var(--bg4)",
+              borderRadius: 7,
+              overflow: "hidden",
+              border: "1px solid var(--border)",
+            }}>
+              {pct === 0 ? (
+                /* Indeterminate shimmer while waiting for first result */
+                <div style={{
+                  height: "100%",
+                  width: "30%",
+                  background: "linear-gradient(90deg, transparent, var(--accent2), transparent)",
+                  borderRadius: 7,
+                  animation: "shimmer 1.2s infinite linear",
+                }} />
+              ) : (
+                /* Determinate fill — smooth transition per item */
+                <div style={{
+                  height: "100%",
+                  width: `${pct}%`,
+                  background: "linear-gradient(90deg, var(--accent2), var(--accent))",
+                  borderRadius: 7,
+                  transition: "width 0.2s ease-out",
+                  boxShadow: "0 0 8px rgba(52,211,153,0.5)",
+                }} />
+              )}
+            </div>
+
+            {/* Item count label below bar */}
+            <div style={{ marginTop: 6, fontSize: 11, color: "var(--text3)", textAlign: "right" }}>
+              {progress.total - progress.done} remaining
+            </div>
           </div>
         </div>
       )}

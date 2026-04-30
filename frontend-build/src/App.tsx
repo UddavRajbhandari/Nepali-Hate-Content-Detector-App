@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { api, type StatusResponse } from "./utils/api";
 import SinglePredict from "./pages/SinglePredict";
 import BatchAnalysis from "./pages/BatchAnalysis";
@@ -18,13 +18,21 @@ const TABS: { id: Tab; label: string; icon: string }[] = [
 type BootState = "polling" | "ready" | "error";
 
 export default function App() {
-  const [tab, setTab]           = useState<Tab>("predict");
-  const [lastText, setLastText] = useState("");
-  const [boot, setBoot]         = useState<BootState>("polling");
-  const [caps, setCaps]         = useState<StatusResponse | null>(null);
-  const [device, setDevice]     = useState("");
+  const [tab, setTab]               = useState<Tab>("predict");
+  const [lastText, setLastText]     = useState("");
+  const [boot, setBoot]             = useState<BootState>("polling");
+  const [caps, setCaps]             = useState<StatusResponse | null>(null);
+  const [device, setDevice]         = useState("");
+  // Banner shown when the server drops AFTER initial boot
+  const [disconnected, setDisconnected] = useState(false);
+  const keepaliveRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // ── On mount: poll /health until model_loaded, then fetch /api/status ──
+  // ── Initial boot: poll /health until model_loaded ──────────────────────────
+  // bootReady ref avoids stale closure bug: setTimeout captures the initial
+  // value of `boot` ("polling") and never sees the updated "ready" value.
+  // Using a ref lets the timeout read the live value without re-rendering.
+  const bootReadyRef = useRef(false);
+
   useEffect(() => {
     let cancelled = false;
 
@@ -34,25 +42,25 @@ export default function App() {
           const h = await api.health();
           if (h.model_loaded) {
             setDevice(h.device);
-            // Now fetch capabilities so XAI buttons know what to show
             const s = await api.status();
             if (!cancelled) {
               setCaps(s);
+              bootReadyRef.current = true;  // mark ready BEFORE setState
               setBoot("ready");
             }
             return;
           }
         } catch {
-          // Server not up yet — keep polling
+          // Server not up yet — keep polling silently
         }
         await new Promise((r) => setTimeout(r, 2000));
       }
     };
 
-    // 30 s hard timeout — avoids infinite spin if something is wrong
+    // 120 s timeout — reads ref, not stale closure variable
     const timeout = setTimeout(() => {
-      if (boot !== "ready") setBoot("error");
-    }, 30_000);
+      if (!bootReadyRef.current) setBoot("error");
+    }, 120_000);
 
     poll().catch(() => { if (!cancelled) setBoot("error"); });
 
@@ -63,14 +71,41 @@ export default function App() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── Boot screen ──────────────────────────────────────────────────────────
+  // ── Keepalive: check every 30 s after boot so we detect server restarts ────
+  useEffect(() => {
+    if (boot !== "ready") return;
+
+    keepaliveRef.current = setInterval(async () => {
+      try {
+        const h = await api.health();
+        if (h.model_loaded) {
+          // Server is back or still up — hide banner
+          setDisconnected(false);
+        } else {
+          // Server up but model still loading (e.g. after restart)
+          setDisconnected(true);
+        }
+      } catch {
+        // Server unreachable — show reconnecting banner
+        setDisconnected(true);
+      }
+    }, 30_000);
+
+    return () => {
+      if (keepaliveRef.current) clearInterval(keepaliveRef.current);
+    };
+  }, [boot]);
+
+  // ── Boot screen ─────────────────────────────────────────────────────────────
   if (boot === "polling") {
     return (
       <div className="app">
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh", gap: 16 }}>
           <span className="spinner" style={{ width: 32, height: 32, borderWidth: 3 }} />
           <p className="muted">Loading model…</p>
-          <p style={{ fontSize: 12, color: "var(--text3)" }}>This may take up to 30 seconds on first start.</p>
+          <p style={{ fontSize: 12, color: "var(--text3)" }}>
+            This may take 60–90 seconds on first start while the model downloads.
+          </p>
         </div>
       </div>
     );
@@ -81,10 +116,11 @@ export default function App() {
       <div className="app">
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh", gap: 12 }}>
           <div className="alert alert-error" style={{ maxWidth: 420, textAlign: "center" }}>
-            Could not connect to the backend after 30 seconds.
+            Could not connect to the backend after 120 seconds.
             <br />Check that the server is running on port 8000.
+            <br /><span style={{ fontSize: 12, opacity: 0.8 }}>Run: <code>uvicorn backend.app.main:app --host 0.0.0.0 --port 8000</code></span>
           </div>
-          <button className="btn btn-ghost" onClick={() => { setBoot("polling"); }}>
+          <button className="btn btn-ghost" onClick={() => setBoot("polling")}>
             ↺ Retry
           </button>
         </div>
@@ -94,7 +130,33 @@ export default function App() {
 
   return (
     <div className="app">
-      <header className="header">
+      {/* ── Disconnected banner — shown without blocking the UI ── */}
+      {disconnected && (
+        <div style={{
+          position: "fixed", top: 0, left: 0, right: 0, zIndex: 200,
+          background: "var(--amber-bg)", borderBottom: "1px solid var(--amber)",
+          padding: "8px 16px", textAlign: "center",
+          display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+          fontSize: 13, color: "var(--amber)",
+        }}>
+          <span className="spinner" style={{ width: 14, height: 14, borderWidth: 2, borderTopColor: "var(--amber)" }} />
+          Backend unreachable — reconnecting… Start the server if it is not running.
+          <button
+            className="btn btn-ghost btn-sm"
+            style={{ fontSize: 12, padding: "2px 8px", borderColor: "var(--amber)", color: "var(--amber)" }}
+            onClick={async () => {
+              try {
+                const h = await api.health();
+                if (h.model_loaded) setDisconnected(false);
+              } catch { /* still down */ }
+            }}
+          >
+            Check now
+          </button>
+        </div>
+      )}
+
+      <header className="header" style={disconnected ? { marginTop: 37 } : {}}>
         <div className="header-inner">
           <div className="wordmark">
             <span className="wordmark-icon">🛡</span>

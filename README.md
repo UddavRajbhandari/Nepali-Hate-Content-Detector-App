@@ -48,8 +48,8 @@ nepali-hate-detector-app/
 │   │   │   └── analyze.py          POST /api/analyze
 │   │   ├── models/schemas.py       Pydantic v2 request/response schemas
 │   │   └── utils/history.py        Thread-safe JSONL history store
+│       └── Dockerfile
 │   ├── requirements.txt
-│   └── Dockerfile
 │
 ├── scripts/                        Preprocessing & XAI (shared with major-project)
 │   ├── transformer_data_preprocessing.py
@@ -177,45 +177,6 @@ Full API documentation: **http://localhost:8000/docs** (Swagger UI, available wh
 
 ---
 
-## ☁️ Deployment
-
-### Frontend → Vercel
-
-1. Push this repo to GitHub
-2. Go to [vercel.com](https://vercel.com) → **New Project** → import this repo
-3. Set **Root Directory** to `frontend-build`
-4. Set **Build Command** to `npm run build`
-5. Set **Output Directory** to `dist`
-6. Add environment variable:
-   ```
-   VITE_API_BASE=https://your-backend.up.railway.app/api
-   ```
-7. Click **Deploy**
-
-### Backend → Railway
-
-1. Go to [railway.app](https://railway.app) → **New Project** → **Deploy from GitHub repo**
-2. Select this repo
-3. Set **Root Directory** to `backend`
-4. Railway auto-detects the `Dockerfile` — no extra config needed
-5. Add environment variables in Railway dashboard:
-   ```
-   HF_MODEL_ID=UDHOV/xlm-roberta-large-nepali-hate-classification
-   FRONTEND_URL=https://your-app.vercel.app
-   ```
-6. Copy the Railway URL and paste it into Vercel's `VITE_API_BASE` env var
-
-### Backend → HuggingFace Spaces (Docker)
-
-1. Create a new Space at [huggingface.co/spaces](https://huggingface.co/spaces)
-2. Choose **Docker** as the SDK
-3. Push the repo — the `Dockerfile` inside `backend/` will be used
-4. Set Space secrets:
-   ```
-   FRONTEND_URL=https://your-app.vercel.app
-   ```
-
----
 
 ## ⚙️ Environment Variables
 

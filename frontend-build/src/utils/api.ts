@@ -232,6 +232,12 @@ export const api = {
               onDone(msg.total);
             } else if ("result" in msg) {
               onItem(msg.result, msg.index, msg.total);
+              // Yield to the browser event loop after every item so it can repaint.
+              // Without this, when the backend sends multiple results in one TCP
+              // chunk the for-loop runs synchronously — flushSync updates React state
+              // but the browser only paints when JS yields, so the counter jumps
+              // straight to the final value instead of incrementing visibly.
+              await new Promise<void>((r) => setTimeout(r, 0));
             }
           } catch {
             console.warn("Skipped malformed NDJSON line:", line);

@@ -146,8 +146,7 @@ label { font-size: 13px; color: var(--text2); font-weight: 500; display: block; 
 .pred-NO  { background: var(--green-bg);  color: var(--green);  border-color: #166534; }
 .pred-OO  { background: var(--amber-bg);  color: var(--amber);  border-color: #78350f; }
 .pred-OR  { background: var(--red-bg);    color: var(--red);    border-color: #7f1d1d; }
-.pred-OS    { background: var(--purple-bg); color: var(--purple); border-color: #4c1d95; }
-.pred-Error { background: var(--bg4);        color: var(--text3); border-color: var(--border2); }
+.pred-OS  { background: var(--purple-bg); color: var(--purple); border-color: #4c1d95; }
 
 /* ── Result panel ────────────────────────────────────────────── */
 .result-header {
@@ -214,6 +213,11 @@ label { font-size: 13px; color: var(--text2); font-weight: 500; display: block; 
 .progress-fill {
   height: 100%; background: var(--accent2); border-radius: 3px;
   transition: width 0.3s ease;
+}
+
+@keyframes shimmer {
+  0%   { transform: translateX(-150%); }
+  100% { transform: translateX(500%); }
 }
 
 /* ── Batch table ─────────────────────────────────────────────── */
