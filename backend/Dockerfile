@@ -25,6 +25,7 @@ WORKDIR /app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
         libgomp1 \
+        fontconfig \
         fonts-noto-core \
         fonts-noto-extra \
     && fc-cache -fv \
@@ -60,8 +61,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
 
 # Run FastAPI
-CMD ["uvicorn", "app.main:app",
-     "--host", "0.0.0.0",
-     "--port", "8000",
-     "--workers", "1",
-     "--log-level", "info"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4", "--log-level", "info"]
