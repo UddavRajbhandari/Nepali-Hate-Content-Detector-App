@@ -60,7 +60,7 @@ export default function App() {
     // 120 s timeout — reads ref, not stale closure variable
     const timeout = setTimeout(() => {
       if (!bootReadyRef.current) setBoot("error");
-    }, 120_000);
+    }, 300_000 );
 
     poll().catch(() => { if (!cancelled) setBoot("error"); });
 
@@ -116,9 +116,9 @@ export default function App() {
       <div className="app">
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "100vh", gap: 12 }}>
           <div className="alert alert-error" style={{ maxWidth: 420, textAlign: "center" }}>
-            Could not connect to the backend after 120 seconds.
-            <br />Check that the server is running on port 8000.
-            <br /><span style={{ fontSize: 12, opacity: 0.8 }}>Run: <code>uvicorn backend.app.main:app --host 0.0.0.0 --port 8000</code></span>
+            Could not connect to the backend after 5 minutes.
+            <br />The model server may still be loading or the HF Space may be sleeping.
+            <br /><span style={{ fontSize: 12, opacity: 0.8 }}>Click Retry to try again.</span>
           </div>
           <button className="btn btn-ghost" onClick={() => setBoot("polling")}>
             ↺ Retry
