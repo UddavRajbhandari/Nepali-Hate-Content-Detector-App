@@ -159,8 +159,16 @@ export default function BatchAnalysis() {
               placeholder={"यो राम्रो छ\ntimi murkha chau\nThis is a test"}
               style={{ minHeight: 200, fontFamily: "monospace", fontSize: 13 }}
             />
-            <div style={{ fontSize: 12, color: "var(--text3)", marginTop: 6 }}>
-              {textCount} {textCount === 1 ? "text" : "texts"} ready
+            <div style={{ fontSize: 13, color: "var(--text2)", marginTop: 6 }}>
+              <span style={{
+                fontWeight: 700,
+                fontSize: 16,
+                color: "var(--accent)",
+                fontFamily: "'DM Mono', monospace",
+              }}>
+                {textCount}
+              </span>
+              {" "}{textCount === 1 ? "text" : "texts"} ready
               {textCount > 200 && (
                 <span style={{ color: "var(--red)", marginLeft: 8 }}>
                   ⚠ exceeds 200 limit
@@ -241,18 +249,6 @@ export default function BatchAnalysis() {
                 <span className="spinner" style={{ width: 13, height: 13, borderWidth: 2 }} />
                 Analyzing texts…
               </span>
-              <span style={{
-                fontSize: 13,
-                fontFamily: "'DM Mono', monospace",
-                color: "var(--accent)",
-                background: "var(--accent-dim)",
-                padding: "2px 10px",
-                borderRadius: 6,
-                minWidth: 130,
-                textAlign: "center",
-              }}>
-                {progress.done} / {progress.total} &nbsp;·&nbsp; {pct}%
-              </span>
             </div>
 
             {/* Track — taller (14px) so it is clearly visible */}
@@ -286,10 +282,7 @@ export default function BatchAnalysis() {
               )}
             </div>
 
-            {/* Item count label below bar */}
-            <div style={{ marginTop: 6, fontSize: 11, color: "var(--text3)", textAlign: "right" }}>
-              {progress.total - progress.done} remaining
-            </div>
+
           </div>
         </div>
       )}
